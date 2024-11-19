@@ -1,2 +1,2 @@
-all:
-	clang src/main.c -o bin/main
+default:
+	clang++ src/main.cpp -o bin/main
