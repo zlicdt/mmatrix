@@ -1,59 +1,76 @@
 #include <iostream>
 #include <vector>
+#include <sstream>
 #include "define.h"
-
 int main() {
-    while(true) {
-        std::cout << "Rows of the first matrix(any non-number to exit): ";
-        if (!(std::cin >> rows_m1)) return 0;
-        std::cout << "Columns of the first matrix: ";
-        std::cin >> columns_m1;
-        std::vector<std::vector<lfloat> > matrix_1(rows_m1, std::vector<lfloat>(columns_m1));
-        std::cout << "Rows of the second matrix: " << columns_m1 << std::endl;
-        std::cout << "Columns of the second matrix: ";
-        std::cin >> columns_m2;
-        std::vector<std::vector<lfloat> > matrix_2(columns_m1, std::vector<lfloat>(columns_m2));
-        std::vector<std::vector<lfloat> > result(rows_m1, std::vector<lfloat>(columns_m2));
-        for(int i = 0; i < rows_m1; i++) {
-            for(int j = 0; j < columns_m1; j++) {
-                std::cout << "Element [" << i << "][" << j << "] of the first matrix: ";
-                std::cin >> matrix_1[i][j];
-            }
+    std::vector<std::vector<lfloat> >   _matrix;
+    std::vector<std::vector<lfloat> >   __matrix;
+    std::string                         __line;
+    std::cout << "The first matrix: " << std::endl;
+    while (std::getline(std::cin, __line)) {
+        if (__line.empty()) break;
+        std::istringstream              __stream(__line);
+        std::vector<lfloat>             __row;
+        lfloat                          __value;
+
+        while (__stream >> __value) __row.push_back(__value);
+
+        if (!__row.empty()) {
+            _matrix.push_back(__row);
+            rows_operator++;
         }
-        for(int i = 0; i < columns_m1; i++) {
-            for(int j = 0; j < columns_m2; j++) {
-                std::cout << "Element [" << i << "][" << j << "] of the second matrix: ";
-                std::cin >> matrix_2[i][j];
-            }
+    }
+    std::vector<unsigned>               _matrix_row_sizes;
+    for (unsigned i = 0; i < rows_operator; i++) _matrix_row_sizes.push_back(_matrix[i].size());
+    std::sort(_matrix_row_sizes.begin(), _matrix_row_sizes.end());
+    _matrix_max_row_size = _matrix_row_sizes.back();
+    for (int i = 0; i < rows_operator; i++) {
+        if (_matrix[i].size() < _matrix_max_row_size) {
+            for (int j = _matrix[i].size(); j < _matrix_max_row_size; j++) _matrix[i].push_back(0);
         }
-        std::cout << "Two matrixes are: " << std::endl;
-        for(int i = 0; i < rows_m1; i++) {
-            for(int j = 0; j < columns_m1; j++) {
-                std::cout << matrix_1[i][j] << " ";
-            }
-            std::cout << std::endl;
+    }
+    for (unsigned i = 0; i < rows_operator; i++) {
+        for (unsigned j = 0; j < _matrix[i].size(); j++) std::cout << _matrix[i][j] << " ";
+        std::cout << std::endl;
+    }
+    std::cout << "The second matrix: " << std::endl;
+    while (std::getline(std::cin, __line)) {
+        if (__line.empty()) break;
+        std::istringstream      __stream(__line);
+        std::vector<lfloat>     __row;
+        lfloat                  __value;
+
+        while (__stream >> __value) __row.push_back(__value);
+
+        if (!__row.empty()) {
+            __matrix.push_back(__row);
+            columns_operator++;
+        }
+    }
+    std::vector<unsigned> __matrix_row_sizes;
+    for (unsigned i = 0; i < columns_operator; i++) __matrix_row_sizes.push_back(__matrix[i].size());
+    std::sort(__matrix_row_sizes.begin(), __matrix_row_sizes.end());
+    __matrix_max_row_size = __matrix_row_sizes.back();
+    for (int i = 0; i < columns_operator; i++) {
+        if (__matrix[i].size() < __matrix_max_row_size) {
+            for (int j = __matrix[i].size(); j < __matrix_max_row_size; j++) __matrix[i].push_back(0);
+        }
+    }
+    for (unsigned i = 0; i < columns_operator; i++) {
+        for (unsigned j = 0; j < __matrix[i].size(); j++) std::cout << __matrix[i][j] << " ";
+        std::cout << std::endl;
+    }
+    if (_matrix[0].size() != __matrix.size()) {
+        std::cout << "The matrices cannot be multiplied." << std::endl;
+        return 0;
+    }
+    std::cout << "The result matrix: " << std::endl;
+    for (int i = 0; i < rows_operator; i++) {
+        for (int j = 0; j < __matrix_max_row_size; j++) {
+            lfloat __sum = 0;
+            for (int k = 0; k < _matrix_max_row_size; k++) __sum += _matrix[i][k] * __matrix[k][j];
+            std::cout << __sum << " ";
         }
         std::cout << std::endl;
-        for(int i = 0; i < columns_m1; i++) {
-            for(int j = 0; j < columns_m2; j++) {
-                std::cout << matrix_2[i][j] << " ";
-            }
-            std::cout << std::endl;
-        }
-        for(int i = 0; i < rows_m1; i++) {
-            for(int j = 0; j < columns_m2; j++) {
-                result[i][j] = 0;
-                for(int k = 0; k < columns_m1; k++) {
-                    result[i][j] += matrix_1[i][k] * matrix_2[k][j];
-                }
-            }
-        }
-        std::cout << "The result matrix is: " << std::endl;
-        for (int i = 0; i < rows_m1; i++) {
-            for (int j = 0; j < columns_m2; j++) {
-                std::cout << result[i][j] << " ";
-            }
-            std::cout << std::endl;
-        }
     }
 }

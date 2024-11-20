@@ -1,4 +1,10 @@
-unsigned int rows_m1 = 0;
-unsigned int columns_m1 = 0;
-unsigned int columns_m2 = 0;
+#ifndef DEFINE_H
+#define DEFINE_H
 typedef long double lfloat;
+unsigned    _matrix_max_row_size = 0;
+unsigned    __matrix_max_row_size = 0;
+unsigned    columns_operator;
+unsigned    rows_operator;
+char        __input_char;
+bool        is_last_char_newline = false;
+#endif
