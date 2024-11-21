@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <sstream>
+#include <algorithm>
 #include "define.h"
 int main() {
     std::vector<std::vector<lfloat> >   _matrix;

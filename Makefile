@@ -1,2 +1,2 @@
 default:
-	clang++ src/main.cpp -o bin/main
+	g++ src/main.cpp -o bin/main
