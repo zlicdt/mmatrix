@@ -1,7 +1,9 @@
 #include <iostream>
 #include <vector>
 #include <sstream>
+#ifdef __GNUC__
 #include <algorithm>
+#endif
 #include "define.h"
 int main() {
     std::vector<std::vector<lfloat> >   _matrix;
