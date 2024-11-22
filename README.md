@@ -5,3 +5,4 @@
 
 ## This version
 修复 Linux gcc 不能编译项目的问题
+由于 Makefile 中使用 mkdir -p 所以在macOS上不一定可用
